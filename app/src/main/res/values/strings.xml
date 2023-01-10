@@ -29,6 +29,7 @@
     <string name="food_6">Lettuce</string>
     <string name="food_7">Mayo</string>
 
-    <string name="web_client_id">786669483104-orpi6t3siqide3ok3nmspj3i4au62v25.apps.googleusercontent.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

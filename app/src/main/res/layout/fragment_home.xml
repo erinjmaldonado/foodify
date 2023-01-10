@@ -51,7 +51,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/inventoryRecView"
             android:layout_width="wrap_content"
-            android:layout_height="165dp"
+            android:layout_height="175dp"
             android:layout_below="@+id/ingredientsTitle"
             android:layout_marginTop="2dp"
             android:padding="10dp"

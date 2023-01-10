@@ -10,16 +10,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
-public class FoodDisplayAdapter extends RecyclerView.Adapter<FoodDisplayAdapter.ViewHolder> {
+public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHolder> {
 
-    static Context context;
-    ArrayList<Inventory> inventoryArrayList;
+    Context context;
+    ArrayList<FoodItem> foodItems;
 
-    public FoodDisplayAdapter(Context context, ArrayList<Inventory> inventoryArrayList) {
+    public FoodItemAdapter(Context context, ArrayList<FoodItem> foodItems) {
         this.context = context;
-        this.inventoryArrayList = inventoryArrayList;
+        this.foodItems = foodItems;
     }
 
     @NonNull
@@ -31,26 +33,24 @@ public class FoodDisplayAdapter extends RecyclerView.Adapter<FoodDisplayAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Inventory inventory  = inventoryArrayList.get(position);
-        holder.foodName.setText(inventory.foodNames);
-        holder.foodImage.setImageResource(inventory.foodImages);
-
+        FoodItem foodItem  = foodItems.get(position);
+        Glide.with(context).load(foodItem.getUri()).into(holder.image);
+        holder.total.setText(foodItem.getTitle());
     }
-
+    
     @Override
     public int getItemCount() {
-        return inventoryArrayList.size();
+        return foodItems.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-
-        private ImageView foodImage;
-        private TextView foodName;
+        private ImageView image;
+        private TextView total;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            foodImage = itemView.findViewById(R.id.foodImage);
-            foodName = itemView.findViewById(R.id.foodName);
+            image = itemView.findViewById(R.id.foodImage);
+            total = itemView.findViewById(R.id.foodName);
         }
     }
 }

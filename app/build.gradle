@@ -3,6 +3,10 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+def apikeyPropertiesFile = rootProject.file("apikey.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
 android {
     namespace 'com.example.foodify'
     compileSdk 33
@@ -14,6 +18,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // should correspond to key/value pairs inside the file
+        buildConfigField("String", "API_KEY", apikeyProperties['API_KEY'])
+
     }
     lint {
         baseline = file("lint-baseline.xml")
@@ -22,6 +30,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "API_KEY", API_KEY
+        }
+        debug{
+            buildConfigField 'String', "API_KEY", API_KEY
         }
     }
     compileOptions {
@@ -32,7 +44,6 @@ android {
         viewBinding true
     }
 }
-
 
 dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.3.0'
@@ -61,7 +72,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:21.1.0'
     implementation 'com.google.android.gms:play-services-auth:20.3.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
-    apply plugin: 'com.google.gms.google-services'
+    annotationProcessor('com.github.bumptech.glide:compiler:4.13.0')
 
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:31.1.0')
@@ -69,4 +80,41 @@ dependencies {
     // Add the dependency for the Realtime Database library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-database'
+
+    // Barcode model
+    implementation 'com.google.mlkit:barcode-scanning:17.0.2'
+
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.0'
+    implementation "androidx.multidex:multidex:2.0.1"
+
+    // define a BOM and its version
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
+
+    // define any required OkHttp artifacts without version
+    implementation("com.squareup.okhttp3:okhttp:3.12.10")
+    implementation("com.squareup.okhttp3:logging-interceptor")
+
+    // Database
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:31.0.2')
+
+    // Declare the dependency for the Cloud Firestore library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-firestore'
+
+    implementation 'com.google.code.gson:gson:2.10'
+
+    implementation 'com.google.android.material:material:1.4.0'
+
+    def nav_version = "2.5.3"
+
+    // Java language implementation
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
+
+    implementation "androidx.asynclayoutinflater:asynclayoutinflater:1.0.0"
+    implementation 'org.jsoup:jsoup:1.8.3'
+
 }
+apply plugin: 'com.google.gms.google-services'

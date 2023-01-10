@@ -56,16 +56,16 @@ public class Register extends AppCompatActivity {
         });
 
         signUp.setOnClickListener(v ->{
-                auth();
+            auth();
         });
 
     }
 
-    private void sendUserToNextActivity() {
+    /*private void sendUserToNextActivity() {
         Intent intent = new Intent(Register.this, ProfileActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-    }
+    }*/
 
     private void auth(){
         String emailStr = email.getText().toString();
@@ -84,17 +84,14 @@ public class Register extends AppCompatActivity {
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
 
-            mAuth.createUserWithEmailAndPassword(emailStr, passwordStr).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-                        progressDialog.dismiss();
-                        sendUserToNextActivity();
-                        Toast.makeText(Register.this, "Registration Successful", Toast.LENGTH_SHORT);
-                    } else {
-                        progressDialog.dismiss();
-                        Toast.makeText(Register.this, ""+task.getException(), Toast.LENGTH_SHORT);
-                    }
+            mAuth.createUserWithEmailAndPassword(emailStr, passwordStr).addOnCompleteListener(task -> {
+                if(task.isSuccessful()){
+                    progressDialog.dismiss();
+                    //sendUserToNextActivity();
+                    Toast.makeText(Register.this, "Registration Successful", Toast.LENGTH_SHORT);
+                } else {
+                    progressDialog.dismiss();
+                    Toast.makeText(Register.this, ""+task.getException(), Toast.LENGTH_SHORT);
                 }
             });
         }
